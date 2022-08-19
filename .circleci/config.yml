@@ -36,11 +36,8 @@ jobs:
           name: aws codeartifact login
           command: |
             aws codeartifact login --tool npm --repository refera-repo --domain refera-repo --domain-owner 956511183109 --region us-east-1
-      - run: 
-          name: sonaqube
-          command: |
-            sonarcloud/scan
       - run: yarn install
+      - sonarcloud/scan
       - save_cache:
           paths:
             - node_modules
@@ -51,6 +48,9 @@ jobs:
             - ./
       - run: yarn stylelint
       - run: yarn eslint
+      
+orbs:
+  sonarcloud: sonarsource/sonarcloud@1.0.3
       
 workflows:
   version: 2

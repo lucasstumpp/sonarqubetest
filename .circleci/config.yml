@@ -1,0 +1,63 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+## Check https://circleci.com/docs/2.0/language-javascript/ for more detail
+#
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: cimg/node:14.17.6
+
+version: 2
+jobs:
+  pre-build:
+    
+    <<: *defaults
+    resource_class: xlarge
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            - v1-dependencies-
+      - run: sudo apt update && sudo apt install python3-pip
+      - run:
+          name: awscli install
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" 
+            unzip awscliv2.zip 
+            sudo ./aws/install
+      - run:
+          name: awscli configure
+          command: |
+            aws configure set aws_access_key_id AKIA55NECMEC3PFJ2DFA
+            aws configure set aws_secret_access_key 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
+            aws configure set default.region us-east-1
+      - run:
+          name: aws codeartifact login
+          command: |
+            aws codeartifact login --tool npm --repository refera-repo --domain refera-repo --domain-owner 956511183109 --region us-east-1
+      - run: 
+          name: sonaqube
+          command: |
+            sonarcloud/scan
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - ./
+      - run: yarn stylelint
+      - run: yarn eslint
+      
+workflows:
+  version: 2
+  main_workflow:
+    jobs:
+      - pre-build:
+          context: SonarCloud
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/

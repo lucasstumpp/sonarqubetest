@@ -6,6 +6,8 @@ defaults: &defaults
   working_directory: ~/repo
   docker:
     - image: cimg/node:14.17.6
+  orbs:
+    sonarcloud: sonarsource/sonarcloud@1.0.3
 
 version: 2
 jobs:
@@ -49,10 +51,7 @@ jobs:
             - ./
       - run: yarn stylelint
       - run: yarn eslint
-      
-orbs:
-  sonarcloud: sonarsource/sonarcloud@1.0.3
-      
+            
 workflows:
   version: 2
   main_workflow:

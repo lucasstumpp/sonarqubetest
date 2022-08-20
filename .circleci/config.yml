@@ -20,6 +20,7 @@ jobs:
             - v1-dependencies-{{ checksum "yarn.lock" }}
             - v1-dependencies-
       - run: sudo apt update && sudo apt install python3-pip
+      - run: sudo apt-get install openjdk-11-jdk
       - run:
           name: awscli install
           command: |

@@ -15,6 +15,7 @@ jobs:
     resource_class: xlarge
     steps:
       - checkout
+      - sonarcloud/scan
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "yarn.lock" }}
@@ -38,7 +39,6 @@ jobs:
           command: |
             aws codeartifact login --tool npm --repository refera-repo --domain refera-repo --domain-owner 956511183109 --region us-east-1
       - run: yarn install
-      - sonarcloud/scan
       - save_cache:
           paths:
             - node_modules
@@ -51,7 +51,7 @@ jobs:
       - run: yarn eslint
 
 orbs:
-  sonarcloud: sonarsource/sonarcloud@1.0.3
+  sonarcloud: sonarsource/sonarcloud@1.1.0
             
 workflows:
   version: 2

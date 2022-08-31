@@ -12,7 +12,7 @@ jobs:
   pre-build:
     
     <<: *defaults
-    resource_class: xlarge
+    resource_class: medium
     steps:
       - checkout
       - sonarcloud/scan

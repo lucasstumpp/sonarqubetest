@@ -16,7 +16,6 @@ jobs:
     steps:
       - checkout
       - sonarcloud/scan
-      - run: cd ~/tmp/cache/scanner
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "yarn.lock" }}

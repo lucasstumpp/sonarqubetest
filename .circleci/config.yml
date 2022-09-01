@@ -14,6 +14,7 @@ jobs:
     <<: *defaults
     resource_class: medium
     steps:
+      - run: envlist = py39
       - checkout
       - sonarcloud/scan
       - restore_cache:

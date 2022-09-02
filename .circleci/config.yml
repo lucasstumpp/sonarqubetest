@@ -17,6 +17,8 @@ jobs:
       - run: sudo apt update && sudo apt install python3-pip
       - run: sudo apt-get install openjdk-11-jdk
       - run: pip install -U pytest
+      - run: sudo pip install tox
+      - run: sudo pip install coverage
       - checkout
       - sonarcloud/scan
       - restore_cache:

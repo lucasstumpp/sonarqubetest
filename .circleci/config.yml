@@ -3,7 +3,7 @@
 ## Check https://circleci.com/docs/2.0/language-javascript/ for more detail
 ####
 defaults: &defaults
-  working_directory: ~/repo
+  working_directory: ~/ 
   docker:
     - image: cimg/node:14.17.6
  
@@ -19,7 +19,7 @@ jobs:
       - run: pip install -U pytest
       - run: sudo pip install tox
       - run: sudo pip install coverage
-      - run: sudo find / -name "tox.ini"
+      - run: cd /
       - run: tox
       - checkout
       - sonarcloud/scan

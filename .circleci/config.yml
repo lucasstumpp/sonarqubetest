@@ -19,7 +19,7 @@ jobs:
       - run: pip install -U pytest
       - run: sudo pip install tox
       - run: sudo pip install coverage
-      - run: find / tox.ini
+      - run: find / -name "tox.ini"
       - run: tox
       - checkout
       - sonarcloud/scan

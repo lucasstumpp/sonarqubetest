@@ -22,7 +22,7 @@ jobs:
       - run: sudo pip install coverage
       - run: sudo pip install pytest-cov
       - run: mkdir tests
-      - run: pytest --cov=. --cov-report=xml --cov-config=tox.ini tests/
+      - run: tox
       - sonarcloud/scan
       - restore_cache:
           keys:

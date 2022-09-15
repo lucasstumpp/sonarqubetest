@@ -24,6 +24,22 @@ jobs:
       - run: mkdir tests
       - run: tox
       - sonarcloud/scan
+      - run:
+          name: Google Chat Notification
+          when: on_success
+          command: |
+            curl --header "Content-Type: application/json" \
+            --request POST \
+            --data "{\"cards\":[{\"header\":{\"title\":\"${pre-build} successful.\",\"subtitle\":\"${CIRCLE_PROJECT_REPONAME}-${new}\",\"imageUrl\":\"https://png.pngtree.com/svg/20170510/success_404253.png\",\"imageStyle\":\"IMAGE\"},\"sections\":[{\"widgets\":[{\"keyValue\":{\"topLabel\":\"${CIRCLE_TAG}\",\"content\":\"Credits - ${CIRCLE_USERNAME}\"}}]},{\"widgets\":[{\"buttons\":[{\"textButton\":{\"text\":\"DETAILS\",\"onClick\":{\"openLink\":{\"url\":\"${CIRCLE_BUILD_URL}\"}}}}]}]}]}]}" \
+            "$CHAT_INFRA"
+      - run:
+          name: Google Chat Notification
+          when: on_fail
+          command: |
+            curl --header "Content-Type: application/json" \
+            --request POST \
+            --data "{\"cards\":[{\"header\":{\"title\":\"Oops. ${pre-build} failed.\",\"subtitle\":\"${CIRCLE_PROJECT_REPONAME}-${new}\",\"imageUrl\":\"https://png.pngtree.com/svg/20170406/icon_failed__1325447.png\",\"imageStyle\":\"IMAGE\"},\"sections\":[{\"widgets\":[{\"keyValue\":{\"topLabel\":\"${CIRCLE_TAG}\",\"content\":\"Credits - ${CIRCLE_USERNAME}\"}}]},{\"widgets\":[{\"buttons\":[{\"textButton\":{\"text\":\"DETAILS\",\"onClick\":{\"openLink\":{\"url\":\"${CIRCLE_BUILD_URL}\"}}}}]}]}]}]}" \
+            "$CHAT_INFRA"
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "yarn.lock" }}

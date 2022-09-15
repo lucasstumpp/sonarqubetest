@@ -22,14 +22,6 @@ jobs:
       - run: sudo pip install coverage
       - run: sudo pip install pytest-cov
       - run: mkdir tests
-      - run:
-          name: Google Chat Notification
-          when: on_success
-          command: |
-            curl --header "Content-Type: application/json" \
-            --request POST \
-            --data "{\"cards\":[{\"header\":{\"title\":\"${CIRCLE_JOB} successful.\",\"subtitle\":\"${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BRANCH}\",\"imageUrl\":\"https://png.pngtree.com/svg/20170510/success_404253.png\",\"imageStyle\":\"IMAGE\"},\"sections\":[{\"widgets\":[{\"keyValue\":{\"topLabel\":\"${CIRCLE_TAG}\",\"content\":\"Credits - ${CIRCLE_USERNAME}\"}}]},{\"widgets\":[{\"buttons\":[{\"textButton\":{\"text\":\"DETAILS\",\"onClick\":{\"openLink\":{\"url\":\"${CIRCLE_BUILD_URL}\"}}}}]}]}]}]}" \
-            "$CHAT_INFRA"
       - run: tox
       - sonarcloud/scan
       - restore_cache:
@@ -69,9 +61,16 @@ jobs:
           command: |
             curl --header "Content-Type: application/json" \
             --request POST \
-            --data "{\"cards\":[{\"header\":{\"title\":\"Oops. ${CIRCLE_JOB} failed.\",\"subtitle\":\"${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BRANCH}\",\"imageUrl\":\"https://png.pngtree.com/svg/20170406/icon_failed__1325447.png\",\"imageStyle\":\"IMAGE\"},\"sections\":[{\"widgets\":[{\"keyValue\":{\"topLabel\":\"${CIRCLE_TAG}\",\"content\":\"Credits - ${CIRCLE_USERNAME}\"}}]},{\"widgets\":[{\"buttons\":[{\"textButton\":{\"text\":\"DETAILS\",\"onClick\":{\"openLink\":{\"url\":\"${CIRCLE_BUILD_URL}\"}}}}]}]}]}]}" \
+            --data "{\"cards\":[{\"header\":{\"title\":\"Ops! ${CIRCLE_JOB} failed.\",\"subtitle\":\"${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BRANCH}\",\"imageUrl\":\"https://png.pngtree.com/svg/20170406/icon_failed__1325447.png\",\"imageStyle\":\"IMAGE\"},\"sections\":[{\"widgets\":[{\"keyValue\":{\"topLabel\":\"${CIRCLE_TAG}\",\"content\":\"Credits - ${CIRCLE_USERNAME}\"}}]},{\"widgets\":[{\"buttons\":[{\"textButton\":{\"text\":\"DETAILS\",\"onClick\":{\"openLink\":{\"url\":\"${CIRCLE_BUILD_URL}\"}}}}]}]}]}]}" \
             "$CHAT_INFRA"
-      
+      - run:
+          name: Google Chat Notification
+          when: on_success
+          command: |
+            curl --header "Content-Type: application/json" \
+            --request POST \
+            --data "{\"cards\":[{\"header\":{\"title\":\"${CIRCLE_JOB} successful.\",\"subtitle\":\"${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BRANCH}\",\"imageUrl\":\"https://cdn.dribbble.com/users/314596/screenshots/3241132/media/8e2907a9f80400ee3f40865a3803e6c3.gif\",\"imageStyle\":\"IMAGE\"},\"sections\":[{\"widgets\":[{\"keyValue\":{\"topLabel\":\"${CIRCLE_TAG}\",\"content\":\"Credits - ${CIRCLE_USERNAME}\"}}]},{\"widgets\":[{\"buttons\":[{\"textButton\":{\"text\":\"DETAILS\",\"onClick\":{\"openLink\":{\"url\":\"${CIRCLE_BUILD_URL}\"}}}}]}]}]}]}" \
+            "$CHAT_INFRA"
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.1.0
             

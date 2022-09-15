@@ -53,8 +53,6 @@ jobs:
           root: ./
           paths:
             - ./
-      - run: yarn stylelint
-      - run: yarn eslint
       - run:
           name: Google Chat Notification
           when: on_fail

@@ -37,9 +37,9 @@ jobs:
       - run:
           name: awscli configure
           command: |
-            aws configure set aws_access_key_id AKIA55NECMEC3PFJ2DFA
-            aws configure set aws_secret_access_key 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
-            aws configure set default.region us-east-1
+            $AWS_CODEARTIFACT_ACCESSKEY
+            $AWS_CODEARTIFACT_SECRETKEY
+            $AWS_CODEARTIFACT_REGION
       - run:
           name: aws codeartifact login
           command: |

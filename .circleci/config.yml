@@ -15,6 +15,11 @@ jobs:
     resource_class: medium
     steps:
       - checkout
+      - run: 
+          name: Curl - Deploy Bitrise
+          command: |
+            curl https://app.bitrise.io/app/f66887d78fe1287b/build/start.json -L --data '{"hook_info":{"type":"bitrise","build_trigger_token":"ht6ACHxKL1u16emn_KMokg"},"build_params":{"branch":"beta","workflow_id":"Android-Production"},"triggered_by":"curl"}'
+            curl https://app.bitrise.io/app/f66887d78fe1287b/build/start.json -L --data '{"hook_info":{"type":"bitrise","build_trigger_token":"ht6ACHxKL1u16emn_KMokg"},"build_params":{"branch":"beta","workflow_id":"iOS-Production"},"triggered_by":"curl"}'
       - run: sudo apt update && sudo apt install python3-pip
       - run: sudo apt-get install openjdk-11-jdk
       - run: pip install -U pytest
